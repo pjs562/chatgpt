@@ -36,6 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   String _text = "";
   String _msg = "";
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -49,9 +50,12 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _openAi(String text) async {
+    setState(() {
+      _isLoading = true;
+    });
     // Create the configuration
     const conf = OpenAIConfiguration(
-      apiKey: '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',
+      apiKey: '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', // OpenAI API key
     );
 
     // Create a new client
@@ -69,7 +73,9 @@ class _MyHomePageState extends State<MyHomePage> {
         .data;
 
     setState(() {
+      _isLoading = false;
       _msg = result.choices[0].text;
+      _textEditingController.clear();
     });
   }
 
@@ -99,12 +105,15 @@ class _MyHomePageState extends State<MyHomePage> {
             const SizedBox(
               height: 30,
             ),
-            Text(_msg),
+            _isLoading ? const CircularProgressIndicator() : Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(_msg),
+            ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _openAi(_text),
+        onPressed: () => _isLoading ? null : _openAi(_text),
         tooltip: 'Search',
         child: const Icon(Icons.send),
       ),
