@@ -55,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
     // Create the configuration
     const conf = OpenAIConfiguration(
-      apiKey: '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', // OpenAI API key
+      apiKey: '#OpenAI API key', // OpenAI API key
     );
 
     // Create a new client
